@@ -1,4 +1,6 @@
 from stanfordnlp.server import CoreNLPClient
+import re
+import os
 
 """
 Extract RDF triples from text.
@@ -32,8 +34,6 @@ class App:
                            timeout=30000, memory='16G') as client:
             # submit the request to the server
             ann = client.annotate(text, properties={"outputFormat": "json", "openie.triple.strict": "true"})
-            # get the first sentence
-            print(ann)
             triples = []
             parsed_text = {'word': [], 'pos': [], 'exp': [], 'lemma': []}
             for sentence in ann['sentences']:
@@ -56,30 +56,33 @@ class App:
         return [triples, parsed_text]
 
     @staticmethod
-    def load_text_file():
-        with open(
-                '/Users/aprzybycien/projects/inzynierka/BEng-Thesis---Semantic-Analysis/data/vaccine-articles/txt-format'
-                '/article12.txt', encoding="utf-16") as file:
+    def load_text_file(path):
+        with open(path, encoding="utf-16") as file:
             data = file.read().replace("\n", ". ")
         return data
 
     @staticmethod
-    def save_to_file(doc):
-        with open(
-                '/Users/aprzybycien/projects/inzynierka/BEng-Thesis---Semantic-Analysis/data/vaccine-articles/txt-format'
-                '/article12TRIPLES.txt', "w+") as file:
+    def save_to_file(doc, path):
+        with open(path, "w+") as file:
             for item in doc:
                 file.write(str(item) + "\n")
 
 
 if __name__ == "__main__":
-    file = App.load_text_file()
-    print(file)
-    sentences = file.split(".")
-    all_triples = []
-    for sentence in sentences:
-        if sentence:  # check if empty
-            triple = App.extract_triples_and_pos(sentence)
-            all_triples.append({sentence: triple})
-    # print(all_triples[0])
-    App.save_to_file(all_triples)
+    os.chdir("..")
+    ARTICLES_PATH = os.getcwd() + "/data/vaccine-articles/txt-format"
+    TRIPLES_PATH = os.getcwd() + "/data/vaccine-articles/triples"
+    for roots, dirs, files in os.walk(ARTICLES_PATH):
+        for file in files:
+            if file.endswith(".txt"):
+                print(ARTICLES_PATH + "/" + file)
+                data = App.load_text_file(ARTICLES_PATH + "/" + file)
+                print(data)
+                sentences = re.split("\. |\? |! ]", data)
+                all_triples = []
+                for sentence in sentences:
+                    if sentence:  # check if empty
+                        triple = App.extract_triples_and_pos(sentence)
+                        all_triples.append({sentence: triple})
+                App.save_to_file(all_triples, TRIPLES_PATH + "/TRIPLES" + file)
+
