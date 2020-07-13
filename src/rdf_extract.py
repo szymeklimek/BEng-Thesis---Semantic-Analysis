@@ -31,10 +31,10 @@ pos_dict = {
 class App:
     @staticmethod
     def extract_triples_and_pos(text):
-        with CoreNLPClient(properties={"annotators": "tokenize,pos,lemma,openie"}, start_server=False, be_quiet=False,
+        with CoreNLPClient(properties={"annotators": "tokenize,openie"}, start_server=False, be_quiet=False,
                            timeout=30000, memory='16G') as client:
             # submit the request to the server
-            ann = client.annotate(text, properties={"outputFormat": "json", "annotators": "tokenize,pos,lemma,openie"})
+            ann = client.annotate(text, properties={"outputFormat": "json", "annotators": "tokenize,openie"})
             triples = []
             parsed_text = {'word': [], 'pos': [], 'exp': [], 'lemma': []}
             for sentence in ann['sentences']:
@@ -57,6 +57,24 @@ class App:
         return [triples, parsed_text]
 
     @staticmethod
+    def extract_only_triples(text):
+        with CoreNLPClient(properties={"annotators": "tokenize,openie"}, start_server=False, be_quiet=False,
+                           timeout=30000, memory='16G') as client:
+            # submit the request to the server
+            ann = client.annotate(text, properties={"outputFormat": "json", "annotators": "tokenize,openie"})
+            triples = []
+            parsed_text = {'word': [], 'pos': [], 'exp': [], 'lemma': []}
+            for sentence in ann['sentences']:
+                for triple in sentence['openie']:
+                    triples.append({
+                        'subject': triple['subject'],
+                        'relation': triple['relation'],
+                        'object': triple['object']
+                    })
+
+        return triples
+
+    @staticmethod
     def load_text_file(path):
         with open(path, encoding="utf-16") as file:
             data = file.read().replace("\n", ". ")
@@ -66,7 +84,6 @@ class App:
     def save_to_file(doc, path):
         with open(path, "w+") as file:
             json.dump(doc, file)
-
 
 
 if __name__ == "__main__":
@@ -81,10 +98,14 @@ if __name__ == "__main__":
                 print(data)
                 sentences = re.split("\. |\? |! ]", data)
                 all_triples = []
+                stripped_triples = []
                 for sentence in sentences:
-                    if sentence:  # check if empty
-                        triple = App.extract_triples_and_pos(sentence)
-                        all_triples.append({sentence: triple})
+                    if sentence and sentence != " ":  # check if empty
+                        triple = App.extract_only_triples(sentence)
+                        if len(triple) > 0:
+                            all_triples.append({sentence: triple})
                 json_all_triples = all_triples
-                App.save_to_file(json_all_triples, TRIPLES_PATH + "/TRIPLES" + file.split(".")[0] + ".json")
 
+                # only sentences with subject-object-relation
+                stripped_triples = []
+                App.save_to_file(all_triples, TRIPLES_PATH + "/ONLY_TRIPLES" + file.split(".")[0] + ".json")
