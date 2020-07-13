@@ -1,6 +1,7 @@
 from stanfordnlp.server import CoreNLPClient
 import re
 import os
+import json
 
 """
 Extract RDF triples from text.
@@ -33,7 +34,7 @@ class App:
         with CoreNLPClient(properties={"annotators": "tokenize,pos,lemma,openie"}, start_server=False, be_quiet=False,
                            timeout=30000, memory='16G') as client:
             # submit the request to the server
-            ann = client.annotate(text, properties={"outputFormat": "json", "openie.triple.strict": "true"})
+            ann = client.annotate(text, properties={"outputFormat": "json", "annotators": "tokenize,pos,lemma,openie"})
             triples = []
             parsed_text = {'word': [], 'pos': [], 'exp': [], 'lemma': []}
             for sentence in ann['sentences']:
@@ -64,8 +65,8 @@ class App:
     @staticmethod
     def save_to_file(doc, path):
         with open(path, "w+") as file:
-            for item in doc:
-                file.write(str(item) + "\n")
+            json.dump(doc, file)
+
 
 
 if __name__ == "__main__":
@@ -84,5 +85,6 @@ if __name__ == "__main__":
                     if sentence:  # check if empty
                         triple = App.extract_triples_and_pos(sentence)
                         all_triples.append({sentence: triple})
-                App.save_to_file(all_triples, TRIPLES_PATH + "/TRIPLES" + file)
+                json_all_triples = all_triples
+                App.save_to_file(json_all_triples, TRIPLES_PATH + "/TRIPLES" + file.split(".")[0] + ".json")
 
