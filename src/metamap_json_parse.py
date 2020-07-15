@@ -16,6 +16,7 @@ class App:
                 sentence = list(json_entry.keys())[0]
                 triples = list(json_entry.values())[0][0]
 
+                # check if the triples list is empty
                 if not triples:
                     continue
 
@@ -31,6 +32,8 @@ class App:
 
                 for concept in concepts:
                     print(concept)
+                    
+                # break for testing purposes on a single sentence-triple pair
                 break
 
 
