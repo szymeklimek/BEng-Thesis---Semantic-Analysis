@@ -6,7 +6,7 @@ with open('/Users/aprzybycien/projects/inzynierka/BEng-Thesis---Semantic-Analysi
           '/article12.txt', encoding="utf-16") as file:
     data = file.read()
 doc = nlp(data)
-doc.sentences[0].print_tokens()
+doc.tokens[0].print_tokens()
 # dictionary that contains pos tags and their explanations
 pos_dict = {
     'CC': 'coordinating conjunction', 'CD': 'cardinal digit', 'DT': 'determiner',
@@ -32,7 +32,7 @@ pos_dict = {
 # extract parts of speech
 def extract_pos(document):
     parsed_text = {'word': [], 'pos': [], 'exp': []}
-    for sent in document.sentences:
+    for sent in document.tokens:
         for wrd in sent.words:
             if wrd.pos in pos_dict.keys():
                 pos_exp = pos_dict[wrd.pos]

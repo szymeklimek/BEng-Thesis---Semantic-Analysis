@@ -1,3 +1,6 @@
 .DS_Store
 *.props
 .idea/*
+public_mm
+pymetamap
+venv

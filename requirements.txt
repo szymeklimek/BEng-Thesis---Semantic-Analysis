@@ -86,3 +86,6 @@ webencodings==0.5.1
 widgetsnbextension==3.5.1
 wordcloud==1.6.0
 xlrd==1.2.0
+
+pymetamap~=0.2
+setuptools~=49.2.0
