@@ -27,3 +27,7 @@ Linux/MacOS: Add `export CORENLP_HOME=<path-to-unzipped-folder>/stanford-corenlp
 to `~\.bash_profile` or `etc\.profile` or `~\.zhrc` and run `source ~\.zhrc` (or the file of choice) in the console.  
 Windows: Add `CORENLP_HOME=<path-to-unzipped-folder>/stanford-corenlp-full-2020-04-20` to System Enviromental Variables.
 
+MetaMap Wrapper instalation guide - https://metamap.nlm.nih.gov/Installation.shtml
+
+The 'public_mm' folder needs to be in the root directory of the project.
+
