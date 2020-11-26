@@ -29,5 +29,11 @@ Windows: Add `CORENLP_HOME=<path-to-unzipped-folder>/stanford-corenlp-full-2020-
 
 MetaMap Wrapper instalation guide - https://metamap.nlm.nih.gov/Installation.shtml
 
-The 'public_mm' folder needs to be in the root directory of the project.
+The 'public_mm' folder needs to be in the root directory of the project. DEPRECATED - use the docker image for accesing the metamap API.
+
+In docker-setup/metamap-env-setup, the metamap archive needs to be present for the docker script to properly copy and build the image. The used archive is 'public_mm_linux_main_2020.tar.bz2', the 2020 version of metamap. Note that the archive size is 1.6gb, and the whole size of the image after build is over 10gb (for some reason).
+
+Also, for the mm_client script to recognize metamap Concept objects, the pymetamap library needs to be installed in the main project directory.
+
+To build the image, follow the instructions in the dockerfiles. There is a in-between base environment image, which can be used to update the server script and startup shell script of the final image.By default, the metamap server on the image is listening on port 7777. 
 
