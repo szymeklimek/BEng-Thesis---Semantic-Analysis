@@ -35,5 +35,5 @@ In docker-setup/metamap-env-setup, the metamap archive needs to be present for t
 
 Also, for the mm_client script to recognize metamap Concept objects, the pymetamap library needs to be installed in the main project directory.
 
-To build the image, follow the instructions in the dockerfiles. There is a in-between base environment image, which can be used to update the server script and startup shell script of the final image.
+To build the image, follow the instructions in the dockerfiles. There is a in-between base environment image, which can be used to update the server script and startup shell script of the final image.By default, the metamap server on the image is listening on port 7777. 
 
