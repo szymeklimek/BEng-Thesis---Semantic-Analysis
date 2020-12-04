@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 class SimpleSentenceGenerationAlgorithm:
 
     def _check_if_found(self, found, idx_gov, idx_dep):
@@ -56,7 +54,7 @@ class SimpleSentenceGenerationAlgorithm:
         deps_to_consider = []
         for dep in sentence['dependencies']:
             if str(dep['dep']) not in ['mark', 'acl', 'appos', 'advcl', 'cc', 'ccomp', 'conj', 'dep', 'parataxis',
-                                       'ref', 'punct']:
+                                       'ref', 'punct', 'acl:relcl', 'det']:
                 deps_to_consider.append(dep)
         # build deps trees for nsubjs
         dependencies = []
@@ -80,15 +78,10 @@ class SimpleSentenceGenerationAlgorithm:
     def get_simple_sentences(self, sentence):
         simple_sentences = []
         sub_indexes = self._get_subj_indexes(sentence)
-        is_simple = self._check_if_simple_sentence(sub_indexes)
-        if is_simple:
-            return [sentence['sentence']]
-        else:
-            simple_sentence_deps = self._get_dependencies_tree_from_compound(sentence, sub_indexes)
-            for deps in simple_sentence_deps:
-                sentence = self._glue_words_into_sentences(deps)
-                # simple_sentences.append(
-                #     {'dependencies': deps, 'tokens': sentence['tokens'], 'sentence': sentence['sentence']})
-                simple_sentences.append(sentence)
+        simple_sentence_deps = self._get_dependencies_tree_from_compound(sentence, sub_indexes)
+        for deps in simple_sentence_deps:
+            sentence = self._glue_words_into_sentences(deps)
+            simple_sentences.append(sentence)
+
         return simple_sentences
 
