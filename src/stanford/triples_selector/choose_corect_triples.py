@@ -1,5 +1,5 @@
-from src.triples_from_openie import TriplesFromOpenieGenerator
-from src.triples_from_dependencies import TriplesFromDependenciesGenerator
+from src.stanford.triples_selector.triples_from_openie import TriplesFromOpenieGenerator
+from src.stanford.triples_selector.triples_from_dependencies import TriplesFromDependenciesGenerator
 
 
 class TriplesPicker:

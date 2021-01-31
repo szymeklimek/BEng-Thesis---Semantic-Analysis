@@ -1,7 +1,7 @@
-from src.replace_short_forms import ShortFormReplacer
-from src.simple_sentences_algorithm import SimpleSentenceGenerationAlgorithm
-from src.stanfordAPI import StanfordAPI
-from src.choose_corect_triples import TriplesPicker
+from src.text_parsing.replace_short_forms import ShortFormReplacer
+from src.stanford.simple_sentences_algorithm import SimpleSentenceGenerationAlgorithm
+from src.stanford.stanfordAPI import StanfordAPI
+from src.stanford.triples_selector.choose_corect_triples import TriplesPicker
 
 class TriplesFinder:
     def create_simple_sentences(self, sentences_metadata):

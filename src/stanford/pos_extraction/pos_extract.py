@@ -2,7 +2,7 @@ import stanfordnlp
 import pandas as pd
 
 nlp = stanfordnlp.Pipeline(processors="tokenize,mwt,lemma,pos")
-with open('/Users/aprzybycien/projects/inzynierka/BEng-Thesis---Semantic-Analysis/data/vaccine-articles/txt-format'
+with open('/Users/aprzybycien/projects/inzynierka/BEng-Thesis---Semantic-Analysis/data/articles/txt-format'
           '/article12.txt', encoding="utf-16") as file:
     data = file.read()
 doc = nlp(data)

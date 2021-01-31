@@ -2,3 +2,4 @@
 *.props
 .idea/*
 *.pyc
+/venv
