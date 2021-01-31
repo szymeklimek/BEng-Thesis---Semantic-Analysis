@@ -1,4 +1,4 @@
-from src.filemanager import FileManager
+from src.file_management.filemanager import FileManager
 import os
 import json
 def attach_credilibity(data, credibility):
@@ -6,8 +6,8 @@ def attach_credilibity(data, credibility):
         for triples in sentence_triples:
             triples['credibility'] = credibility
     return data
-os.chdir("..")
-TRIPLES_PATH = os.getcwd() + "/data/vaccine-articles/triples"
+os.chdir("../..")
+TRIPLES_PATH = os.getcwd() + "/data/articles/triples"
 
 with open(TRIPLES_PATH + "/TRIPLEScredCorpusNONCRED.json") as json_file:
     noncred = json.load(json_file)

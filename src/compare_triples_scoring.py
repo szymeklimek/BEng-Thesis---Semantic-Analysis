@@ -1,5 +1,5 @@
 import os
-from src.triples_finder import TriplesFinder
+from src.stanford.triples_selector.triples_finder import TriplesFinder
 SCORE_MATCH_DIRECT = 1
 SCORE_MATCH_SUPPORT = 0.7  # not used
 SUB_THRESHOLD = 0.5

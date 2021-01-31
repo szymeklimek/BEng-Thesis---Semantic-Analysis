@@ -10,7 +10,7 @@ class CredibilityCorpus:
 
     def __init__(self, path, credibilityCorpus=True):
 
-        with open(os.getcwd() + path, newline='\n') as csv_file:
+        with open(path, newline='\n') as csv_file:
             names = []
             reader = csv.reader(csv_file, delimiter=',')
             if(credibilityCorpus):
